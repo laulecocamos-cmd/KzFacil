@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: kzfacil
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: JWT_SECRET
+        sync: false
+      - key: NODE_VERSION
+        value: 24.21.0
+    disk:
+      name: kzfacil-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
