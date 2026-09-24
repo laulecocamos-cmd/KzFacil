@@ -78,7 +78,11 @@ async function init() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
-
+  await pool.query(`
+    ALTER TABLE orders
+    ADD COLUMN IF NOT EXISTS payment_method TEXT
+  `);
+  
     const admin = await pool.query(
   "SELECT id FROM users WHERE role = 'admin' LIMIT 1"
 );
