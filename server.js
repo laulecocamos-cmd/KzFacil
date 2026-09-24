@@ -44,62 +44,40 @@ app.use(express.static(path.join(__dirname, "public")));
 
 async function init() {
 
-    await pool.query(`
-
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
-
-    CREATE TABLE IF NOT EXISTS services (
-
       id SERIAL PRIMARY KEY,
-
       name TEXT NOT NULL,
-
       phone TEXT UNIQUE NOT NULL,
-
       password TEXT NOT NULL,
-
       role TEXT DEFAULT 'customer',
-
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 
-    `);
-
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS services (
-
       id SERIAL PRIMARY KEY,
-
       name TEXT NOT NULL,
-
       description TEXT,
-
       price INTEGER NOT NULL,
-
       commission_rate REAL DEFAULT 0.10
+    )
+  `);
 
-    `);
-
-    await pool.query(`
-
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
-
       id SERIAL PRIMARY KEY,
-
       code TEXT UNIQUE NOT NULL,
-
       user_id INTEGER REFERENCES users(id),
-
       service_id INTEGER REFERENCES services(id),
-
       details TEXT,
-
       price INTEGER,
-
       commission INTEGER,
-
       status TEXT DEFAULT 'Pendente',
-
-         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    `);
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 
     const admin = await pool.query(
   "SELECT id FROM users WHERE role = 'admin' LIMIT 1"
