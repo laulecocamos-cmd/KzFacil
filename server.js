@@ -384,7 +384,7 @@ app.post("/api/orders", auth, async (req, res) => {
 
         service.price,
 
-        commission
+        commission,
         
         payment_method
 
