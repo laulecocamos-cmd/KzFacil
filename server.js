@@ -60,7 +60,7 @@ async function init() {
 
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
-    );
+    `);
 
     CREATE TABLE IF NOT EXISTS services (
 
