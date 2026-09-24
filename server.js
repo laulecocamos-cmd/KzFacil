@@ -96,28 +96,30 @@ async function init() {
 
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
-    );
+    const admin = await pool.query(
+  "SELECT id FROM users WHERE role = 'admin' LIMIT 1"
+);
 
-  `);
+const adminPassword = process.env.ADMIN_PASSWORD;
 
-  const admin = await pool.query(
+if (admin.rowCount === 0) {
+  const password = adminPassword || "Admin@12345";
+  const hash = bcrypt.hashSync(password, 10);
 
-    "SELECT 1 FROM users WHERE role = 'admin' LIMIT 1"
-
+  await pool.query(
+    "INSERT INTO users(name, phone, password, role) VALUES($1,$2,$3,'admin')",
+    ["Administrador", "admin", hash]
   );
+} else if (adminPassword) {
+  const hash = bcrypt.hashSync(adminPassword, 10);
 
-  if (admin.rowCount === 0) {
+  await pool.query(
+    "UPDATE users SET password = $1 WHERE id = $2",
+    [hash, admin.rows[0].id]
+  );
+}
 
-    const password = process.env.ADMIN_PASSWORD || "Admin@12345";
-
-    const hash = bcrypt.hashSync(password, 10);
-
-    await pool.query(
-
-      "INSERT INTO users(name, phone, password, role) VALUES($1,$2,$3,'admin')",
-
-      ["Administrador", "admin", hash]
-
+  
     );
 
   }
