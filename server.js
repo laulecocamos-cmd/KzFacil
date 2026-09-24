@@ -119,11 +119,6 @@ if (admin.rowCount === 0) {
   );
 }
 
-  
-    );
-
-  }
-
   const count = await pool.query(
 
     "SELECT COUNT(*)::int AS total FROM services"
