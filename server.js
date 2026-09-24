@@ -330,7 +330,7 @@ app.post("/api/orders", auth, async (req, res) => {
 
   try {
 
-    const { service_id, details } = req.body;
+   const { service_id, details, payment_method } = req.body;
 
     const serviceResult = await pool.query(
 
@@ -366,9 +366,9 @@ app.post("/api/orders", auth, async (req, res) => {
 
       `INSERT INTO orders
 
-       (code, user_id, service_id, details, price, commission)
+       (code, user_id, service_id, details, price, commission, payment_method)iu
 
-       VALUES($1,$2,$3,$4,$5,$6)
+       VALUES($1,$2,$3,$4,$5,$6,$7)
 
        RETURNING id`,
 
@@ -385,6 +385,8 @@ app.post("/api/orders", auth, async (req, res) => {
         service.price,
 
         commission
+        
+        payment_method
 
       ]
 
