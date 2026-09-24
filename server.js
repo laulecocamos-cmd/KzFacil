@@ -44,9 +44,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 async function init() {
 
-    `);
-
     await pool.query(`
+
+    CREATE TABLE IF NOT EXISTS users (
 
     CREATE TABLE IF NOT EXISTS services (
 
